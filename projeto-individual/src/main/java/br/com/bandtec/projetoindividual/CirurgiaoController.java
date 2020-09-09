@@ -1,56 +1,54 @@
 package br.com.bandtec.projetoindividual;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class CirurgiaoController extends Medico {
+@RequestMapping("/cirurgioes")
+public class CirurgiaoController {
 
-    private Integer consultas;
-    private Integer custoConsulta;
+
     public List<Medico> listaCirurgiao = new ArrayList<>();
 
 
-    public CirurgiaoController(String nome, String especialiade, Integer consultas, Integer custoConsulta) {
-        super(nome, especialiade);
-        this.consultas = consultas;
-        this.custoConsulta = custoConsulta;
+    @PostMapping("/cadastrar")
+    public void cadastrarCirurgiao(@RequestBody Oftalmologista oftalmologista){
+        listaCirurgiao.add(oftalmologista);
     }
 
-    public int calcSalario() {
-        return (custoConsulta * consultas);
-    }
+    @GetMapping("/calcularSalario")
+    public int calculaSalario() {
 
+        int totalSalario = 0;
 
-       @GetMapping("/listarCirurgiao")
-        public List<Medico> getCirurgiao() {
-            return listaCirurgiao;
+        for (Medico m : listaCirurgiao) {
+            totalSalario = m.getConsultas() * m.getCustoConsulta();
         }
+        return totalSalario;
+    }
+
+    @GetMapping("/listar")
+    public List<Medico> getCirurgiao() {
+        return listaCirurgiao;
+    }
+
 
 
     @DeleteMapping("/excluir/{id}")
     public void excluirCirurgiao(@PathVariable int id) {
         listaCirurgiao.remove(id-1);
-        // -1 porque se passarem "/1" quero o 1º (que é o item na posição 0 da lista)
+        
     }
 
-
-    public Integer getConsultas() {
-        return consultas;
-    }
-
-    public Integer getCustoConsulta() {
-        return custoConsulta;
-    }
-
+    @GetMapping("/seleciona/{id}")
+    public void selecionarCirurgiao(@PathVariable int id) {
+        listaCirurgiao.get(id - 1);
 
     }
+}
 
 
 

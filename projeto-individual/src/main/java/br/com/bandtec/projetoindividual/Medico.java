@@ -1,44 +1,41 @@
 package br.com.bandtec.projetoindividual;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
 public abstract class Medico {
 
 
   private String nome;
-  private String especialiade;
+  private String especialidade;
+  private Integer consultas;
+  private Integer custoConsulta;
 
 
-    public Medico(String nome, String especialiade) {
+    public Medico(String nome, String especialidade, Integer consultas, Integer custoConsulta) {
         this.nome = nome;
-        this.especialiade = especialiade;
+        this.especialidade = especialidade;
+        this.consultas = consultas;
+        this.custoConsulta = custoConsulta;
     }
 
-
-
-    @GetMapping("/cirurgioes")
+    public abstract double calcSalario();
 
     public String getNome() {
         return nome;
     }
 
-    public String getEspecialiade() {
-        return especialiade;
+    public String getEspecialidade() {
+        return especialidade;
+
     }
 
-    public static void main(String[] args) {
+    public Integer getConsultas() {
+        return consultas;
+    }
 
-         CirurgiaoController[] cirurgioes = {
-            new CirurgiaoController("João", "Cirurgião",3, 150),
-        };
-
-         OftalmologistaController[] oftalmologistas = {
-                 new OftalmologistaController("Pedro","Oftalmologista", 2, 200)
-         };
-
-
+    public Integer getCustoConsulta() {
+        return custoConsulta;
     }
 }
+
 
